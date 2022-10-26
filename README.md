@@ -106,7 +106,12 @@ $data = [
     "customer_email" => 'tranvana@payon.vn', //Type String: Địa chỉ email khách hàng
     "customer_mobile" => '0123456789', //Type String: Số điện thoại khách hàng
 ];
-return $payon->createOrderInstallment($data); //Tạo thanh toán trả góp
+$response = $payon->createOrderInstallment($data); //Tạo thanh toán trả góp
+if($response['error_code'] = "00"){
+    // Call API thành công, tiếp tục xử lý
+} else {
+    //Có lỗi xảy ra check lỗi trả về
+}
 ```
 - Kiểm tra giao dịch trước khi thực hiện cập nhật trạng thái cho đơn hàng
 ```php
