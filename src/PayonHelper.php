@@ -12,13 +12,15 @@ class PayonHelper
     private $url;
     private $http_auth;
     private $http_auth_pass;
+    public $ssl_verifypeer;
     public function __construct(
         string $mc_id, 
         string $app_id, 
         string $secret_key, 
         string $url, 
         string $http_auth, 
-        string $http_auth_pass)
+        string $http_auth_pass,
+        bool $ssl_verifypeer = true)
     {
         $this->mc_id = $mc_id;
         $this->app_id = $app_id;
@@ -26,6 +28,7 @@ class PayonHelper
         $this->url = $url;
         $this->http_auth = $http_auth;
         $this->http_auth_pass = $http_auth_pass;
+        $this->ssl_verifypeer = $ssl_verifypeer;
         $url_base = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
         $this->ref_code = 'MCAPI-LV-'. $url_base;
     }
@@ -99,7 +102,7 @@ class PayonHelper
             'checksum' => $checksum,
             'ref_code' => $this->ref_code
         );
-        $result = $this->call($bodyPost, $fnc, $this->url, $this->http_auth, $this->http_auth_pass);
+        $result = $this->call($bodyPost, $fnc);
         return $result;
     }
 
@@ -109,24 +112,24 @@ class PayonHelper
      * @param $fnc
      * @return mixed
      */
-    function Call($params, $fnc, $url, $http_auth, $http_auth_pass)
+    function Call($params, $fnc)
     {
-        if(substr( $url,-1) != '/'){
-            $url = $url.'/';
+        if(substr( $this->url,-1) != '/'){
+            $this->url = $this->url.'/';
         }
-        $url = $url.$fnc;
+        $this->url = $this->url.$fnc;
         $agent = $_SERVER["HTTP_USER_AGENT"];
         if(empty($agent))
         {
             $agent = 'not user agent';
         }
-        $curl = curl_init($url);
+        $curl = curl_init($this->url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $this->ssl_verifypeer);
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($curl, CURLOPT_USERAGENT, $agent);
-        curl_setopt($curl, CURLOPT_USERPWD, $http_auth . ':' . $http_auth_pass);
+        curl_setopt($curl, CURLOPT_USERPWD, $this->http_auth . ':' . $this->http_auth_pass);
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($params));
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(

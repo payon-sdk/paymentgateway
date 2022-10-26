@@ -120,11 +120,20 @@ if($response['error_code'] = "00"){
 use Payon\PaymentGateway\PayonHelper;
 
 $payon = new PayonHelper($mc_id, $app_id, $secret_key, $url, $http_auth, $http_auth_pass);
-$merchant_request_id = 'PAYON_'.$order_id.'_'.$timestamp; //Type String: Mã đơn hàng Merchant tự tạo và là duy nhất cho mỗi yêu cầu
+$merchant_request_id = 'PAYON_'.$order_id.'_'.$timestamp; //Type String: Mã đơn hàng Merchant được tạo từ yêu cầu thanh toán
 $response = $payon->CheckPayment($merchant_request_id); //Tạo thanh toán trả góp
 if($response['error_code'] = "00"){
     // Call API thành công, tiếp tục xử lý
 } else {
     //Có lỗi xảy ra check lỗi trả về
 }
+```
+- Bypass SSL_VERIFYPEER
+```php
+<?php
+
+use Payon\PaymentGateway\PayonHelper;
+
+$payon = new PayonHelper($mc_id, $app_id, $secret_key, $url, $http_auth, $http_auth_pass);
+$payon->ssl_verifypeer = false;
 ```
