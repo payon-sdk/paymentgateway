@@ -135,5 +135,6 @@ if($response['error_code'] = "00"){
 use Payon\PaymentGateway\PayonHelper;
 
 $payon = new PayonHelper($mc_id, $app_id, $secret_key, $url, $http_auth, $http_auth_pass);
-$payon->ssl_verifypeer = false;
+$payon->ssl_verifypeer = false; //bypass ssl
+
 ```
