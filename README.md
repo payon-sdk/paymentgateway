@@ -78,7 +78,6 @@ $data = [
     "amount" => 10000, //Type Int: Giá trị đơn hàng. Đơn vị: VNĐ
     "description" => 'Thanh toán đơn hàng KH Tran Van A', //Type String: Mô tả thông tin đơn hàng
     "bank_code" => "TCB", //Type String: Mã ngân hàng thanh toán.
-    "currency" => "VND", //Type Int: Giá trị đơn hàng. Đơn vị: VNĐ
     "url_redirect" => 'https://payon.vn/', //Type String: Đường link chuyển tiếp sau khi thực hiện thanh toán thành công
     "url_notify" => 'https://payon.vn/notify', //Type String: Đường link thông báo kết quả đơn hàng
     "url_cancel" => 'https://payon.vn/cancel', //Type String: Đường link chuyển tiếp khi khách hàng hủy thanh toán
@@ -116,7 +115,7 @@ use Payon\PaymentGateway\PayonHelper;
 $payon = new PayonHelper($mc_id, $app_id, $secret_key, $url, $http_auth, $http_auth_pass);
 $data = [
     "amount" => 10000, //Type Int: Giá trị đơn hàng. Đơn vị: VNĐ
-    "bank_code" => "DAB", //Type String: Mã ngân hàng thanh toán.
+    "bank_code" => "TCB", //Type String: Mã ngân hàng thanh toán.
     'cycles' => 3, // Type Int: Số kỳ (tháng) trả góp.
     'card_type' => "VISA" //Type String: Loại thẻ thanh toán:VISA, MASTERCARD, JCB.
 ];

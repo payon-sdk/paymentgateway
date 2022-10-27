@@ -114,6 +114,7 @@ class PayonHelper
         $data['service_type_code'] = 'PAYNOW';
         $data['service_code'] = 'PAYNOW_QRLOCALBANK_DYNAMIC';
         $data['method_code'] = 'LOCALBANK';
+        $data['currency'] = 'VND';
         return $this->buildPayment("createQRCode", $data);
     }
 
