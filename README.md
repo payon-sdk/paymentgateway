@@ -35,7 +35,7 @@ use Payon\PaymentGateway\PayonHelper;
 
 $payon = new PayonHelper($mc_id, $app_id, $secret_key, $url, $http_auth, $http_auth_pass);
 $data = [
-    "merchant_request_id" => 'PAYON_'.$order_id.'_'.$timestamp, //Type String: Mã đơn hàng Merchant tự tạo và là duy nhất cho mỗi yêu cầu
+    "merchant_request_id" => $merchant_request_id  //Type String: Mã đơn hàng Merchant được tạo từ yêu cầu thanh toán
     "amount" => 10000, //Type Int: Giá trị đơn hàng. Đơn vị: VNĐ
     "description" => 'Thanh toán đơn hàng KH Tran Van A', //Type String: Mô tả thông tin đơn hàng
     "url_redirect" => 'https://payon.vn/', //Type String: Đường link chuyển tiếp sau khi thực hiện thanh toán thành công
@@ -45,7 +45,7 @@ $data = [
     "customer_email" => 'tranvana@payon.vn', //Type String: Địa chỉ email khách hàng
     "customer_mobile" => '0123456789', //Type String: Số điện thoại khách hàng
 ];
-$response = $payon->CreateOrderPaynow($data); //Tạo thanh toán trả góp
+$response = $payon->CreateOrderPaynow($data);
 if($response['error_code'] = "00"){
     // Call API thành công, tiếp tục xử lý
 } else {
@@ -59,7 +59,7 @@ if($response['error_code'] = "00"){
 use Payon\PaymentGateway\PayonHelper;
 
 $payon = new PayonHelper($mc_id, $app_id, $secret_key, $url, $http_auth, $http_auth_pass);
-$response = $payon->GetQrBankCode(); //Tạo thanh toán trả góp
+$response = $payon->GetQrBankCode();
 if($response['error_code'] = "00"){
     // Call API thành công, tiếp tục xử lý
 } else {
@@ -74,7 +74,7 @@ use Payon\PaymentGateway\PayonHelper;
 
 $payon = new PayonHelper($mc_id, $app_id, $secret_key, $url, $http_auth, $http_auth_pass);
 $data = [
-    "merchant_request_id" => 'PAYON_'.$order_id.'_'.$timestamp, //Type String: Mã đơn hàng Merchant tự tạo và là duy nhất cho mỗi yêu cầu
+    "merchant_request_id" => $merchant_request_id  //Type String: Mã đơn hàng Merchant được tạo từ yêu cầu thanh toán
     "amount" => 10000, //Type Int: Giá trị đơn hàng. Đơn vị: VNĐ
     "description" => 'Thanh toán đơn hàng KH Tran Van A', //Type String: Mô tả thông tin đơn hàng
     "bank_code" => "TCB", //Type String: Mã ngân hàng thanh toán.
@@ -85,7 +85,7 @@ $data = [
     "customer_email" => 'tranvana@payon.vn', //Type String: Địa chỉ email khách hàng
     "customer_mobile" => '0123456789', //Type String: Số điện thoại khách hàng
 ];
-$response = $payon->CreateQRCode($data); //Tạo thanh toán trả góp
+$response = $payon->CreateQRCode($data);
 if($response['error_code'] = "00"){
     // Call API thành công, tiếp tục xử lý
 } else {
@@ -99,7 +99,7 @@ if($response['error_code'] = "00"){
 use Payon\PaymentGateway\PayonHelper;
 
 $payon = new PayonHelper($mc_id, $app_id, $secret_key, $url, $http_auth, $http_auth_pass);
-$response = $payon->GetBankInstallment(); //Tạo thanh toán trả góp
+$response = $payon->GetBankInstallment();
 if($response['error_code'] = "00"){
     // Call API thành công, tiếp tục xử lý
 } else {
@@ -119,7 +119,7 @@ $data = [
     'cycles' => 3, // Type Int: Số kỳ (tháng) trả góp.
     'card_type' => "VISA" //Type String: Loại thẻ thanh toán:VISA, MASTERCARD, JCB.
 ];
-$response = $payon->getFee($data); //Tạo thanh toán trả góp
+$response = $payon->getFee($data);
 if($response['error_code'] = "00"){
     // Call API thành công, tiếp tục xử lý
 } else {
@@ -134,7 +134,7 @@ use Payon\PaymentGateway\PayonHelper;
 
 $payon = new PayonHelper($mc_id, $app_id, $secret_key, $url, $http_auth, $http_auth_pass);
 $data = [
-    "merchant_request_id" => 'PAYON_'.$order_id.'_'.$timestamp, //Type String: Mã đơn hàng Merchant tự tạo và là duy nhất cho mỗi yêu cầu
+    "merchant_request_id" => $merchant_request_id  //Type String: Mã đơn hàng Merchant được tạo từ yêu cầu thanh toán
     "amount" => 10000, //Type Int: Giá trị đơn hàng. Đơn vị: VNĐ
     "description" => 'Thanh toán đơn hàng KH Tran Van A', //Type String: Mô tả thông tin đơn hàng
     "bank_code" => "DAB", //Type String: Mã ngân hàng thanh toán.
@@ -148,7 +148,7 @@ $data = [
     "customer_email" => 'tranvana@payon.vn', //Type String: Địa chỉ email khách hàng
     "customer_mobile" => '0123456789', //Type String: Số điện thoại khách hàng
 ];
-$response = $payon->createOrderInstallment($data); //Tạo thanh toán trả góp
+$response = $payon->createOrderInstallment($data);
 if($response['error_code'] = "00"){
     // Call API thành công, tiếp tục xử lý
 } else {
@@ -162,8 +162,8 @@ if($response['error_code'] = "00"){
 use Payon\PaymentGateway\PayonHelper;
 
 $payon = new PayonHelper($mc_id, $app_id, $secret_key, $url, $http_auth, $http_auth_pass);
-$merchant_request_id = 'PAYON_'.$order_id.'_'.$timestamp; //Type String: Mã đơn hàng Merchant được tạo từ yêu cầu thanh toán
-$response = $payon->CheckPayment($merchant_request_id); //Tạo thanh toán trả góp
+$merchant_request_id = $merchant_request_id  //Type String: Mã đơn hàng Merchant được tạo từ yêu cầu thanh toán
+$response = $payon->CheckPayment($merchant_request_id);
 if($response['error_code'] = "00"){
     // Call API thành công, tiếp tục xử lý
 } else {
@@ -177,6 +177,6 @@ if($response['error_code'] = "00"){
 use Payon\PaymentGateway\PayonHelper;
 
 $payon = new PayonHelper($mc_id, $app_id, $secret_key, $url, $http_auth, $http_auth_pass);
-$payon->ssl_verifypeer = false; //bypass ssl
+$payon->ssl_verifypeer = false;
 
 ```
