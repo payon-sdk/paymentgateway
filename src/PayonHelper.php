@@ -90,6 +90,33 @@ class PayonHelper
     }
 
     
+    /**
+     * Danh sách ngân hàng hỗ trợ QR-Code
+     * @return mixed
+     */
+    function GetQrBankCode()
+    {
+        $data = array(
+            "service_type_code" => 'PAYNOW',
+            "service_code" => 'PAYNOW_QRLOCALBANK_DYNAMIC',
+            "method_code" => 'LOCALBANK'
+        );
+        return $this->buildPayment("getQrBankCode", $data);
+    }
+
+    /**
+     * Tạo thanh toán QR-Code
+     * @param $data
+     */
+    function CreateQRCode($data)
+    {
+        $data['merchant_id'] = (int)$this->mc_id;
+        $data['service_type_code'] = 'PAYNOW';
+        $data['service_code'] = 'PAYNOW_QRLOCALBANK_DYNAMIC';
+        $data['method_code'] = 'LOCALBANK';
+        return $this->buildPayment("createQRCode", $data);
+    }
+
     function buildPayment($fnc, $param)
     {
         $data = json_encode($param);

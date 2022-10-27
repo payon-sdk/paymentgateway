@@ -1,6 +1,8 @@
 # Giới thiệu thông tin
 - Package  hỗ trợ thưc thi các API theo tài liệu: https://docs.nextpay.vn
     + Thanh toán ngay
+    + Lấy danh sách ngân hàng hỗ trợ thanh toán bằng QR-Code
+    + Thanh toán bằng QR-Code
     + Lấy danh sách ngân hàng hỗ trợ trả góp
     + Thông tin phí trả góp
     + Tạo yêu cầu thanh toán trả góp
@@ -44,6 +46,47 @@ $data = [
     "customer_mobile" => '0123456789', //Type String: Số điện thoại khách hàng
 ];
 $response = $payon->CreateOrderPaynow($data); //Tạo thanh toán trả góp
+if($response['error_code'] = "00"){
+    // Call API thành công, tiếp tục xử lý
+} else {
+    //Có lỗi xảy ra check lỗi trả về
+}
+```
+- Lấy danh sách ngân hàng hỗ trợ thanh toán bằng QR-Code
+```php
+<?php
+
+use Payon\PaymentGateway\PayonHelper;
+
+$payon = new PayonHelper($mc_id, $app_id, $secret_key, $url, $http_auth, $http_auth_pass);
+$response = $payon->GetQrBankCode(); //Tạo thanh toán trả góp
+if($response['error_code'] = "00"){
+    // Call API thành công, tiếp tục xử lý
+} else {
+    //Có lỗi xảy ra check lỗi trả về
+}
+```
+- Tạo yêu cầu thanh toán bằng QR-Code
+```php
+<?php
+
+use Payon\PaymentGateway\PayonHelper;
+
+$payon = new PayonHelper($mc_id, $app_id, $secret_key, $url, $http_auth, $http_auth_pass);
+$data = [
+    "merchant_request_id" => 'PAYON_'.$order_id.'_'.$timestamp, //Type String: Mã đơn hàng Merchant tự tạo và là duy nhất cho mỗi yêu cầu
+    "amount" => 10000, //Type Int: Giá trị đơn hàng. Đơn vị: VNĐ
+    "description" => 'Thanh toán đơn hàng KH Tran Van A', //Type String: Mô tả thông tin đơn hàng
+    "bank_code" => "TCB", //Type String: Mã ngân hàng thanh toán.
+    "currency" => "VND", //Type Int: Giá trị đơn hàng. Đơn vị: VNĐ
+    "url_redirect" => 'https://payon.vn/', //Type String: Đường link chuyển tiếp sau khi thực hiện thanh toán thành công
+    "url_notify" => 'https://payon.vn/notify', //Type String: Đường link thông báo kết quả đơn hàng
+    "url_cancel" => 'https://payon.vn/cancel', //Type String: Đường link chuyển tiếp khi khách hàng hủy thanh toán
+    "customer_fullname" => 'Tran Van A', //Type String: Họ và tên khách hàng
+    "customer_email" => 'tranvana@payon.vn', //Type String: Địa chỉ email khách hàng
+    "customer_mobile" => '0123456789', //Type String: Số điện thoại khách hàng
+];
+$response = $payon->CreateQRCode($data); //Tạo thanh toán trả góp
 if($response['error_code'] = "00"){
     // Call API thành công, tiếp tục xử lý
 } else {
